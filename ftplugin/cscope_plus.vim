@@ -45,7 +45,10 @@ endif
 
 if !exists("*s:RemoveCscopeConnection")
     function s:RemoveCscopeConnection()
-        unlet s:cscope_plus_open_buf_map[expand("%:p")]
+        if has_key(s:cscope_plus_open_buf_map, expand("%:p"))
+            unlet s:cscope_plus_open_buf_map[expand("%:p")]
+        endif
+
         setlocal nocsverb
         if exists("b:CSCOPE_PLUS_connection") && empty(s:cscope_plus_open_buf_map)
             exec "cs kill " . b:CSCOPE_PLUS_connection
